@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BASHtr Transcription Guidelines</title>
+<meta name="description" content="Transcription conventions for training data for generalized Automatic Text Recognition of Arabic-script manuscripts, developed within the BASHtr project.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=IBM+Plex+Mono:wght@400;500&family=Amiri:wght@400;700&family=Noto+Naskh+Arabic:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<div class="shell">
+
+  <!-- ============ table of contents ============ -->
+  <nav class="toc" aria-label="Contents">
+    <div class="toc-title">Contents</div>
+    <ol>
+      <li class="toc-part">Rationale</li>
+      <li><a href="#introduction">Introduction</a></li>
+      <li><a href="#constraints">Why ATR needs its own conventions</a></li>
+      <li><a href="#spectrum">The transcription spectrum</a></li>
+      <li><a href="#compromise">The graphemic compromise</a></li>
+      <li><a href="#benefits">Benefits</a></li>
+      <li><a href="#downstream">Downstream use</a></li>
+      <li class="toc-part">Conventions</li>
+      <li><a href="#inventory">Character inventory</a></li>
+      <li><a href="#diacritics">Diacritics</a></li>
+      <li><a href="#hamza">Hamza</a></li>
+      <li><a href="#numerals">Numerals</a></li>
+      <li><a href="#spacing">Spacing &amp; ligatures</a></li>
+      <li><a href="#abbreviations">Abbreviations &amp; sigla</a></li>
+      <li><a href="#decorative">Decorative elements</a></li>
+      <li><a href="#damage">Deletions &amp; damage</a></li>
+      <li><a href="#layout">Layout &amp; segmentation</a></li>
+      <li class="toc-part">Reference</li>
+      <li><a href="#examples">Examples</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <!-- ============ hero ============ -->
+    <header class="hero">
+      <div class="hero-kicker">BASHtr &middot; Benchmark for Arabic-script Handwritten Text Recognition</div>
+      <h1>Transcription Guidelines</h1>
+      <p class="hero-sub">Conventions for producing training data for generalized Automatic Text Recognition of Arabic-script manuscripts. One graphemic standard for any manuscript, in any language written in Arabic script.</p>
+      <div class="hero-line">
+        <span class="ar">بسم الله الرحمن الرحيم مسئلة في الموسيقى لثابت بن قره</span>
+        <div class="caption">Sample transcription under BASHtr conventions: dotting as written, no vocalization, no taṭwīl.</div>
+      </div>
+    </header>
+
+    <!-- ============ introduction ============ -->
+    <section id="introduction">
+      <div class="sec-mark"><span class="pilcrow">&#182;</span><span class="sec-no">&sect; 1</span></div>
+      <h2>Introduction</h2>
+      <p>These guidelines define transcription conventions for the production of training data for generalized Automatic Text Recognition (ATR) of Arabic-script manuscripts. They are developed within the BASHtr project and will be refined iteratively as the project's corpus grows and community feedback is integrated.</p>
+      <p>While currently experimental, they are designed from the outset with generalizability in mind: any Arabic-script manuscript, regardless of the language it records, should be transcribable under these conventions. Arabic script has historically served Arabic, Persian, Ottoman Turkish, Urdu, Malay, Hausa, and many other languages; a single unified standard covers them all.</p>
+      <p class="note">The rationale sections (&sect;&thinsp;1&ndash;6) explain the reasoning behind the conventions. Transcribers who simply wish to apply them can skip ahead to the <a href="#inventory">character inventory</a>.</p>
+    </section>
+
+    <!-- ============ constraints ============ -->
+    <section id="constraints">
+      <div class="sec-mark"><span class="pilcrow">&#182;</span><span class="sec-no">&sect; 2</span></div>
+      <h2>Why ATR needs its own conventions</h2>
+      <p>Transcription guidelines for ATR serve a fundamentally different purpose than those familiar from scholarly editing. An edition presents a text in a form suited to a research question; ATR guidelines must produce the data from which a machine learning model learns to convert manuscript images into text. Three constraints follow that arise only incidentally in editorial work.</p>
+      <div class="cards c3">
+        <div class="card">
+          <h4>Efficiency</h4>
+          <p>Conventions must allow the production of large volumes of consistently annotated data.</p>
+        </div>
+        <div class="card">
+          <h4>Learnability</h4>
+          <p>Rules must be learnable by statistical models that operate with limited context.</p>
+        </div>
+        <div class="card">
+          <h4>Versatility</h4>
+          <p>Datasets produced by different projects must be combinable into the large, diverse corpora that generalized models require.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ spectrum ============ -->
+    <section id="spectrum">
+      <div class="sec-mark"><span class="pilcrow">&#182;</span><span class="sec-no">&sect; 3</span></div>
+      <h2>The transcription spectrum</h2>
+      <p>Following the taxonomy of Robinson and Solopova (Canterbury Tales Project), transcription standards range from <em>graphetic</em> (record every visual variant) through <em>graphemic</em> (record the functional units of the writing system) to <em>normalized</em> (impose conventions requiring knowledge beyond the page). These are idealized points on a continuous spectrum; any real standard combines elements of each.</p>
+      <div class="tbl-wrap">
+        <table class="spectrum">
+          <thead>
+            <tr>
+              <th>Feature</th>
+              <th>Graphetic</th>
+              <th class="hl">BASHtr (graphemic)</th>
+              <th>Normalized</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Allographic variants (positional forms)</td>
+              <td>Transcribed as distinct</td>
+              <td class="hl">Unified to one codepoint <span class="badge omit">unify</span></td>
+              <td>Unified</td>
+            </tr>
+            <tr>
+              <td>Consonantal dotting (i&#703;j&#257;m)</td>
+              <td>As seen on page</td>
+              <td class="hl">As seen on page <span class="badge keep">keep</span></td>
+              <td>Corrected if missing or wrong</td>
+            </tr>
+            <tr>
+              <td>Vowel marks (fat&#7717;a, kasra, &#7693;amma, suk&#363;n, tanw&#299;n)</td>
+              <td>As seen</td>
+              <td class="hl">Omitted <span class="badge omit">omit</span></td>
+              <td>Restored via linguistic analysis</td>
+            </tr>
+            <tr>
+              <td>Shadda (gemination)</td>
+              <td>As seen</td>
+              <td class="hl">Omitted <span class="badge omit">omit</span></td>
+              <td>Restored via linguistic analysis</td>
+            </tr>
+            <tr>
+              <td>Hamza</td>
+              <td>As seen</td>
+              <td class="hl">Precomposed codepoints, only when visible <span class="badge keep">keep</span></td>
+              <td>Normalized</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="note">A fully graphetic transcription is extremely demanding and produces a long tail of rare character classes; a normalized one requires knowledge that is not on the page and yields ambiguous image-to-text mappings prone to hallucination, especially in multilingual collections.</p>
+    </section>
+
+    <!-- ============ compromise ============ -->
+    <section id="compromise">
+      <div class="sec-mark"><span class="pilcrow">&#182;</span><span class="sec-no">&sect; 4</span></div>
+      <h2>The graphemic compromise</h2>
+      <p>These guidelines adopt the graphemic level as their foundation. Experience from the Latin-script domain shows this is the optimal trade-off: the CATMuS project assembled over 160,000 graphemically transcribed lines across 12 languages, and models trained on it match those trained on a semi-diplomatic corpus nearly thirty times larger in language-specific material.</p>
+      <p>Where the guidelines deviate from strict graphemic transcription, they do so deliberately and conservatively: they remove information that is unreliable to annotate or detrimental to model training, while preserving everything a competent reader needs to work with the text.</p>
+      <div class="panel-pair">
+        <div class="panel preserve">
+          <h4><span class="badge keep">preserved</span></h4>
+          <ul>
+            <li>The consonantal skeleton</li>
+            <li>Original orthography</li>
+            <li>Dotting exactly as present, even if scribally incorrect</li>
+            <li>Language-specific letters (Persian, Urdu, Jawi, Maghrib&#299;)</li>
+            <li>Hamza when visually present</li>
+          </ul>
+        </div>
+        <div class="panel drop">
+          <h4><span class="badge omit">deliberately omitted</span></h4>
+          <ul>
+            <li>All vowel marks (fat&#7717;a, kasra, &#7693;amma, suk&#363;n, tanw&#299;n, wasla)</li>
+            <li>Shadda</li>
+            <li>Ta&#7789;w&#299;l used for justification</li>
+            <li>Presentation-form and sacred-phrase ligatures</li>
+            <li>Punctuation and decorative symbols</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ benefits ============ -->
+    <section id="benefits">
+      <div class="sec-mark"><span class="pilcrow">&#182;</span><span class="sec-no">&sect; 5</span></div>
+      <h2>Benefits</h2>
+      <div class="cards c3">
+        <div class="card">
+          <h4>Language independence</h4>
+          <p>A single set of conventions covers most languages written in Arabic script. Datasets can be freely combined, allowing training of more versatile models.</p>
+        </div>
+        <div class="card">
+          <h4>Improved ATR performance</h4>
+          <p>A manageable character inventory, deterministic image-to-text mappings, and no non-learnable normalization rules: models reach high accuracy with less data and generalize better.</p>
+        </div>
+        <div class="card">
+          <h4>Lower barriers</h4>
+          <p>Fewer intricate rules and no counterintuitive normalizations mean more efficient data creation and higher inter-annotator agreement.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ downstream ============ -->
+    <section id="downstream">
+      <div class="sec-mark"><span class="pilcrow">&#182;</span><span class="sec-no">&sect; 6</span></div>
+      <h2>A note on downstream use</h2>
+      <p>A transcription produced under these guidelines will not, by itself, satisfy all humanities use cases: critical editions normalize orthography, Ottomanists transliterate, linguists may want full vocalization. These needs are best addressed as post-processing on a reliable base transcription rather than baked into the ATR stage.</p>
+      <p>Normalization applied programmatically to a correct base text is more reliable and more versatile than training a model to produce normalized output directly: it can be adapted to any scholarly tradition, applied selectively, and corrected systematically. The base transcription is produced once; the normalizations are as many as the research questions that require them.</p>
+    </section>
+
+    <!-- ============ inventory ============ -->
+    <section id="inventory">
+      <div class="sec-mark"><span class="pilcrow">&#182;</span><span class="sec-no">&sect; 7</span></div>
+      <h2>Character inventory and graphemic mapping</h2>
+      <p>The character inventory is the smallest set that preserves all graphemic distinctions present in the script. When in doubt, fewer classes are better.</p>
+      <p>Use the Arabic (<code class="cp">U+0600&ndash;U+06FF</code>), Arabic Supplement (<code class="cp">U+0750&ndash;U+077F</code>), and Arabic Extended-A (<code class="cp">U+08A0&ndash;U+08FF</code>) blocks. Arabic Presentation Forms (<code class="cp">U+FB50&ndash;U+FEFF</code>) are not used. All positional variants of a letter (initial, medial, final, isolated) are transcribed as a single code point: the recognizer sees the visual form, the transcription records only the graphemic identity.</p>
+      <p class="note">Click any card to copy the character to the clipboard.</p>
+      <div class="filterbar" role="group" aria-label="Filter by group">
+        <button class="on" data-filter="all">All</button>
+        <button data-filter="general">General</button>
+        <button data-filter="persian">Persian</button>
+        <button data-filter="urdu">Urdu</button>
+        <button data-filter="jawi">Jawi / Malay</button>
+        <button data-filter="maghribi">Maghrib&#299;</button>
+        <button data-filter="undotted">Undotted rasm</button>
+      </div>
+      <div class="glyph-grid" id="glyphGrid"></div>
+      <h3>Notes on designated codepoints</h3>
+      <p>Where a grapheme has more than one Unicode representation across languages, a single codepoint is designated corpus-wide:</p>
+      <p>K&#257;f is always <span class="ar-inline">&#1603;</span> <code class="cp">U+0643</code>, regardless of language. Final y&#257;&#702; is <span class="ar-inline">&#1610;</span> <code class="cp">U+064A</code> when dotted and <span class="ar-inline">&#1609;</span> <code class="cp">U+0649</code> when dotless; initial and medial y&#257;&#702; is always <span class="ar-inline">&#1610;</span>. H&#257;&#702; and t&#257;&#702; marb&#363;&#7789;a are transcribed as written: <span class="ar-inline">&#1607;</span> or <span class="ar-inline">&#1577;</span>; if t&#257;&#702; marb&#363;&#7789;a context is present but the dots are absent, <span class="ar-inline">&#1607;</span> is used, since missing dots are never restored. Language-specific letters use their dedicated codepoint whenever visually present; an Arabic-block letter is never substituted. Maghrib&#299; f&#257;&#702; and q&#257;f use <span class="ar-inline">&#1698;</span> and <span class="ar-inline">&#1703;</span> only when written Maghrib&#299;-style; standard <span class="ar-inline">&#1601;</span> / <span class="ar-inline">&#1602;</span> otherwise.</p>
+    </section>
+
+    <!-- ============ diacritics ============ -->
+    <section id="diacritics">
+      <div class="sec-mark"><span class="pilcrow">&#182;</span><span class="sec-no">&sect; 8</span></div>
+      <h2>Diacritics</h2>
+      <div class="cards c2">
+        <div class="card">
+          <h4>Vowel marks <span class="badge omit">omit</span></h4>
+          <p>All vowel marks (fat&#7717;a, kasra, &#7693;amma, suk&#363;n, the tanw&#299;n series, wasla, maddah when not part of <span class="ar-inline">&#1570;</span>) are omitted.</p>
+          <p class="ex"><span class="ar-inline">&#1603;&#1616;&#1578;&#1614;&#1575;&#1576;</span> &rarr; <span class="ar-inline">&#1603;&#1578;&#1575;&#1576;</span></p>
+        </div>
+        <div class="card">
+          <h4>Shadda <span class="badge omit">omit</span></h4>
+          <p>Shadda is omitted, a deliberate deviation from strict graphemic transcription: manuscript practice is too inconsistent to transcribe reliably. Gemination is recovered downstream from lexical and morphological analysis.</p>
+          <p class="ex"><span class="ar-inline">&#1605;&#1615;&#1583;&#1614;&#1585;&#1617;&#1616;&#1587;</span> &rarr; <span class="ar-inline">&#1605;&#1583;&#1585;&#1587;</span></p>
+        </div>
+        <div class="card">
+          <h4>Consonantal dotting (i&#703;j&#257;m) <span class="badge keep">preserve</span></h4>
+          <p>Transcribed exactly as present on the page, including incorrect, eccentric, or scribally inconsistent dotting. Missing dots are never restored. Crossed-out or struck-through dotting is ignored.</p>
+          <p class="ex">If a b&#257;&#702; carries three dots, transcribe <span class="ar-inline">&#1579;</span>, even if contextually wrong.</p>
+        </div>
+        <div class="card">
+          <h4>Ambiguous dotting <span class="badge pending">decision rule</span></h4>
+          <div class="flow">
+            <div class="q">1. Is the dot count clear?</div>
+            <div class="branch"><span>NO &rarr;</span> use the undotted skeleton form (<span class="ar-inline">&#1646;</span>, <span class="ar-inline">&#1647;</span>, <span class="ar-inline">&#1722;</span>). Do not guess.</div>
+            <div class="branch"><span>YES &rarr;</span> step 2.</div>
+            <div class="q">2. Is the dot position clear?</div>
+            <div class="branch"><span>NO &rarr;</span> choose the most common member of the letter family.</div>
+            <div class="branch"><span>YES &rarr;</span> transcribe the exact dotted letter.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ hamza ============ -->
+    <section id="hamza">
+      <div class="sec-mark"><span class="pilcrow">&#182;</span><span class="sec-no">&sect; 9</span></div>
+      <h2>Hamza</h2>
+      <div class="cards c2">
+        <div class="card">
+          <h4>Precomposed carriers</h4>
+          <p>Precomposed carrier + hamza codepoints are used where they exist: <span class="ar-inline">&#1571;</span> <code class="cp">U+0623</code>, <span class="ar-inline">&#1573;</span> <code class="cp">U+0625</code>, <span class="ar-inline">&#1572;</span> <code class="cp">U+0624</code>, <span class="ar-inline">&#1574;</span> <code class="cp">U+0626</code>, <span class="ar-inline">&#1570;</span> <code class="cp">U+0622</code>.</p>
+        </div>
+        <div class="card">
+          <h4>Standalone hamza</h4>
+          <p>Hamza with no visible carrier: <span class="ar-inline">&#1569;</span> <code class="cp">U+0621</code>.</p>
+        </div>
+        <div class="card">
+          <h4>No hamza on the page</h4>
+          <p>If no hamza is present on the page, none is supplied.</p>
+        </div>
+        <div class="card">
+          <h4>Raised hamza</h4>
+          <p>Persian high hamza and raised hamza above non-standard carriers: encode as base letter + <code class="cp">U+0654</code> (combining hamza above) only when distinctly visible as a raised mark; otherwise treat as ordinary hamza.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ numerals ============ -->
+    <section id="numerals">
+      <div class="sec-mark"><span class="pilcrow">&#182;</span><span class="sec-no">&sect; 10</span></div>
+      <h2>Numerals</h2>
+      <div class="cards c2">
+        <div class="card">
+          <h4>Digits</h4>
+          <p>Transcribe numerals using the codepoints that match Western Arabic: 0&ndash;9 (<code class="cp">U+0030&ndash;U+0039</code>).</p>
+        </div>
+        <div class="card">
+          <h4>Abjad numerals</h4>
+          <p>Letters used as numerical values are transcribed as their letter forms; the numerical function is recovered downstream.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ spacing and ligatures ============ -->
+    <section id="spacing">
+      <div class="sec-mark"><span class="pilcrow">&#182;</span><span class="sec-no">&sect; 11</span></div>
+      <h2>Spacing, justification, and ligatures</h2>
+      <div class="cards c3">
+        <div class="card">
+          <h4>Word boundaries</h4>
+          <p>Follow the visible spacing of the manuscript. Typographic space <code class="cp">U+0020</code> separates words. Zero-width non-joiner <code class="cp">U+200C</code> is not inserted; meaningful half-spaces in Persian and Urdu are handled downstream.</p>
+        </div>
+        <div class="card">
+          <h4>Ta&#7789;w&#299;l <span class="badge omit">omit</span></h4>
+          <p>Ta&#7789;w&#299;l <code class="cp">U+0640</code> used for justification or aesthetic purposes is not transcribed.</p>
+        </div>
+        <div class="card">
+          <h4>Ligatures</h4>
+          <p>L&#257;m-alif is transcribed as <span class="ar-inline">&#1604;</span> + <span class="ar-inline">&#1575;</span>; the presentation-form ligature is not used. Sacred-phrase ligatures with dedicated codepoints (<code class="cp">U+FDF2</code>, <code class="cp">U+FDFA</code>, <code class="cp">U+FDFB</code>, and similar) are never used.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ abbreviations ============ -->
+    <section id="abbreviations">
+      <div class="sec-mark"><span class="pilcrow">&#182;</span><span class="sec-no">&sect; 12</span></div>
+      <h2>Abbreviations, symbols, and sigla</h2>
+      <p>Anything that looks like text is transcribed. The boundary is visual, not functional: if a mark is composed of recognizable letter forms or conventional signs, it enters the transcription.</p>
+      <div class="cards c2">
+        <div class="card">
+          <h4>Abbreviations and sigla</h4>
+          <p>Abbreviations are never expanded; the abbreviation mark itself is transcribed if it has a visual presence on the page. Scribal sigla (<em>&#7779;a&#7717;&#7717;</em>, <em>na&#7723;&#7723;</em>, collation marks, numerical annotations) are transcribed as text. Diagram labels and text embedded in non-textual elements are transcribed.</p>
+        </div>
+        <div class="card">
+          <h4>Signes de renvoi <span class="badge pending">pending</span></h4>
+          <p>The convention for signes de renvoi and reference marks is still to be determined: either transcribe with a designated symbol or annotate as a region type.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ decorative ============ -->
+    <section id="decorative">
+      <div class="sec-mark"><span class="pilcrow">&#182;</span><span class="sec-no">&sect; 13</span></div>
+      <h2>Decorative and non-textual elements</h2>
+      <p>Punctuation, decorative symbols, and non-textual elements are not transcribed. Text embedded in decoration, diagrams, tables, or illustrations is transcribed under the same rules, segmented as its own line(s) or region(s).</p>
+    </section>
+
+    <!-- ============ damage ============ -->
+    <section id="damage">
+      <div class="sec-mark"><span class="pilcrow">&#182;</span><span class="sec-no">&sect; 14</span></div>
+      <h2>Deletions, corrections, and damage</h2>
+      <p>Preserve as much legible text as possible. The goal is to maximize the amount of usable image-text pairs available for training, not to reconstruct the author's intended text.</p>
+      <div class="cards c2">
+        <div class="card">
+          <h4>Deletions and corrections</h4>
+          <p>Deleted text is transcribed if legible. Interlinear and marginal corrections are transcribed as separate lines if they change the vertical extent of the line; kept inline if they do not.</p>
+        </div>
+        <div class="card">
+          <h4>Damage and erasure</h4>
+          <p>At approximately word scale, the line is retained and illegible portions are skipped. Large-scale damage: the area is segmented into multiple lines around the damaged zone.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ layout ============ -->
+    <section id="layout">
+      <div class="sec-mark"><span class="pilcrow">&#182;</span><span class="sec-no">&sect; 15</span></div>
+      <h2>Layout and segmentation</h2>
+      <p>Line images fed to the recognizer should have consistent vertical extent and approximately linear progression. The most widespread line data model for manuscripts is baseline + bounding polygon. Segmentation choices that violate these properties produce training data that degrades model performance; the recommendations below are to some extent subjective, and minor deviations will not substantially affect recognition accuracy.</p>
+      <div class="cards c3">
+        <div class="card">
+          <h4>Above- and below-line additions</h4>
+          <p>Kept with the main line if they do not significantly change its vertical extent; otherwise segmented as separate lines.</p>
+        </div>
+        <div class="card">
+          <h4>Baseline curving and heaping</h4>
+          <p>A heaped element is transcribed on a separate baseline if it cannot be connected to the rest of the line with a smooth baseline, i.e. if an abrupt change of baseline direction would be necessary. Otherwise it stays part of the text line.</p>
+        </div>
+        <div class="card">
+          <h4>Marginalia</h4>
+          <p>Always segmented as separate lines or regions. Reading-order conventions for multi-column, glossed, or commentary layouts are out of scope for now.</p>
+        </div>
+      </div>
+      <svg viewBox="0 0 640 150" role="img" aria-label="Baseline segmentation diagram" style="width:100%;max-width:640px;margin-top:8px">
+        <rect x="0" y="0" width="640" height="150" fill="#FBF8F1" stroke="#DCD2BE"/>
+        <path d="M 30 55 L 300 55" stroke="#3C6B4F" stroke-width="2.5" fill="none"/>
+        <text x="30" y="42" font-family="IBM Plex Mono, monospace" font-size="11" fill="#3C6B4F">smooth baseline: one line</text>
+        <path d="M 340 55 L 540 55 Q 570 55 580 30" stroke="#9E2B25" stroke-width="2.5" fill="none"/>
+        <path d="M 545 22 L 590 22" stroke="#9E2B25" stroke-width="2.5" stroke-dasharray="5 4" fill="none"/>
+        <text x="340" y="42" font-family="IBM Plex Mono, monospace" font-size="11" fill="#9E2B25">abrupt curve or heaped particle</text>
+        <text x="340" y="115" font-family="IBM Plex Mono, monospace" font-size="11" fill="#9E2B25">&rarr; segment separately</text>
+      </svg>
+    </section>
+
+    <!-- ============ examples ============ -->
+    <section id="examples">
+      <div class="sec-mark"><span class="pilcrow">&#182;</span><span class="sec-no">&sect; 16</span></div>
+      <h2>Examples</h2>
+      <p class="note">Sample transcriptions from the guidelines, shown with the conventions they illustrate.</p>
+      <div class="examples" id="exampleList"></div>
+    </section>
+
+    <footer>
+      <div class="foot-kicker">BASHtr</div>
+      <p>BASHtr Transcription Guidelines. Experimental conventions, refined iteratively with corpus growth and community feedback.</p>
+      <p>Companion reference: Kiessling (2025). Project repository: <a href="https://github.com/SAAlfaa/BasHTR-project">github.com/SAAlfaa/BasHTR-project</a></p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="assets/main.js"></script>
+</body>
+</html>
